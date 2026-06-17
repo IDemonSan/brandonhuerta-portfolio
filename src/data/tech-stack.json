@@ -1,0 +1,110 @@
+[
+  {
+    "category": "Backend",
+    "icon": "server",
+    "items": [
+      {
+        "name": "Java"
+      },
+      {
+        "name": "Spring Boot"
+      },
+      {
+        "name": "C#"
+      },
+      {
+        "name": "ASP.NET MVC"
+      },
+      {
+        "name": "Python"
+      },
+      {
+        "name": "Flask"
+      }
+    ]
+  },
+  {
+    "category": "Frontend",
+    "icon": "monitor",
+    "items": [
+      {
+        "name": "JavaScript"
+      },
+      {
+        "name": "TypeScript"
+      },
+      {
+        "name": "React"
+      },
+      {
+        "name": "Next.js"
+      },
+      {
+        "name": "React Native"
+      }
+    ]
+  },
+  {
+    "category": "Bases de Datos",
+    "icon": "database",
+    "items": [
+      {
+        "name": "PostgreSQL"
+      },
+      {
+        "name": "PostGIS"
+      },
+      {
+        "name": "SQL Server"
+      },
+      {
+        "name": "MySQL"
+      }
+    ]
+  },
+  {
+    "category": "Herramientas",
+    "icon": "wrench",
+    "items": [
+      {
+        "name": "Git"
+      },
+      {
+        "name": "Docker"
+      },
+      {
+        "name": "Power BI"
+      },
+      {
+        "name": "Bizagi Modeler"
+      },
+      {
+        "name": "Visual Studio"
+      }
+    ]
+  },
+  {
+    "category": "Modelamiento",
+    "icon": "layout",
+    "items": [
+      {
+        "name": "UML"
+      },
+      {
+        "name": "BPMN"
+      },
+      {
+        "name": "Casos de Uso"
+      },
+      {
+        "name": "Diagramas ER"
+      },
+      {
+        "name": "MVC"
+      },
+      {
+        "name": "Arquitectura en Capas"
+      }
+    ]
+  }
+]

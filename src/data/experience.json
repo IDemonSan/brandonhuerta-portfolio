@@ -1,0 +1,61 @@
+[
+  {
+    "id": "dirnic-pnp",
+    "role": "Desarrollador Web",
+    "company": "División del Observatorio del Crimen · DIRNIC PNP",
+    "period": "Septiembre 2025 – Diciembre 2025",
+    "description": "Diseñé e implementé sistemas de recopilación y análisis de datos para la producción policial de las unidades orgánicas de la DIRNIC, trabajando directamente con datos sensibles en un entorno institucional de alto impacto.",
+    "highlights": [
+      "Diseñé la base de datos para almacenar y relacionar la producción policial de múltiples unidades orgánicas",
+      "Construí una aplicación web para la recopilación, validación y gestión de datos operativos",
+      "Diseñé reportes dinámicos y tableros de control (dashboards) para visualización analítica de los datos",
+      "Estructuré la información orientándola a inteligencia policial y toma de decisiones"
+    ],
+    "technologies": [
+      "PostgreSQL",
+      "PostGIS",
+      "React",
+      "Power BI",
+      "Leaflet"
+    ]
+  },
+  {
+    "id": "continental",
+    "role": "Asistente Técnico",
+    "company": "Constructora y Consultora Continental S.A.C. · Ancash",
+    "period": "Febrero 2024 – Junio 2025",
+    "description": "Automaticé procesos documentales y técnicos en una constructora, desarrollando aplicaciones internas que optimizaron la gestión de información técnica y topográfica, reduciendo tiempos de búsqueda y mejorando la trazabilidad de entregables.",
+    "highlights": [
+      "Desarrollé aplicativos internos en Java y Spring Boot para gestión documental y estandarización de información técnica en proyectos de construcción y topografía",
+      "Diseñé módulos de control y trazabilidad de entregables, asegurando la integridad de los datos y la accesibilidad para distintas áreas del negocio",
+      "Creé reportes dinámicos y dashboards en Power BI que facilitaron el análisis de información técnica y administrativa a la gerencia",
+      "Redacté manuales técnicos y documentación funcional orientada a usuarios no técnicos"
+    ],
+    "technologies": [
+      "Java",
+      "Spring Boot",
+      "Power BI",
+      "SQL Server",
+      "Git"
+    ]
+  },
+  {
+    "id": "talent-management",
+    "role": "Programador .NET",
+    "company": "Talent Management Group SAC · Lima",
+    "period": "Noviembre 2023 – Enero 2024",
+    "description": "Participé en el ciclo completo de desarrollo de aplicaciones empresariales: desde el levantamiento de requerimientos con usuarios hasta la resolución de incidencias en producción, asegurando calidad y documentación técnica.",
+    "highlights": [
+      "Participé en la recopilación y documentación de requerimientos funcionales y no funcionales con stakeholders",
+      "Desarrollé aplicaciones web con C# y ASP.NET MVC 4.0, y di mantenimiento a aplicaciones de escritorio .NET",
+      "Ejecuté pruebas funcionales basadas en casos de prueba definidos, contribuyendo al aseguramiento de calidad",
+      "Resolví y di seguimiento a incidencias reportadas por usuarios, identificando causa raíz para soluciones definitivas"
+    ],
+    "technologies": [
+      "C#",
+      "ASP.NET MVC",
+      "SQL Server",
+      "Visual Studio"
+    ]
+  }
+]

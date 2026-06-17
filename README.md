@@ -1,36 +1,359 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎨 Portafolio Crimson & Ember
 
-## Getting Started
+**Una plantilla de portafolio profesional para desarrolladores.**  
+Tema oscuro/claro con paleta rojo carmesí + ámbar. CMS basado en JSON con panel admin y auto-commit a GitHub.
 
-First, run the development server:
+Construido con **Next.js 16**, **Tailwind CSS v4** y **Framer Motion**.
+
+---
+
+## ✨ Características
+
+| Característica | Descripción |
+|---|---|
+| 🌙☀️ **Tema oscuro/claro** | Paleta única "Crimson & Ember" — sin azul genérico |
+| 📝 **CMS basado en JSON** | Edita `src/data/*.json` y los cambios se reflejan al hacer deploy |
+| 🛠️ **Panel Admin** | `/admin` — formularios para gestionar todo el contenido |
+| 🔄 **Auto-commit a GitHub** | Los cambios en admin se suben automáticamente al repo (vía OAuth o token) |
+| 🌐 **i18n** | Español e Inglés integrados con toggle en el header |
+| 📱 **Responsive** | Diseño adaptativo con menú mobile |
+| ⚡ **Animaciones** | Transiciones suaves con Framer Motion |
+| 🖼️ **Iconos inline SVG** | Sin dependencias pesadas — SVGs optimizados a mano |
+
+---
+
+## 🚀 Cómo usar esta plantilla (para tu portafolio)
+
+### 1. Fork o clona el repositorio
+
+```bash
+# Opción A: Clonar directamente
+git clone https://github.com/tu-usuario/portafolio-crimson.git
+cd portafolio-crimson
+
+# Opción B: Usar como template (click en "Use this template" en GitHub)
+```
+
+### 2. Instala dependencias
+
+```bash
+npm install
+```
+
+### 3. Configura variables de entorno
+
+```bash
+cp .env.example .env.local
+```
+
+Edita `.env.local` y cambia al menos:
+```
+ADMIN_SECRET=una-contraseña-segura-aleatoria
+```
+
+### 4. Inicia el servidor de desarrollo
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 5. Personaliza el contenido
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Edita los archivos en `src/data/`:
+- `profile.json` — Tu información personal
+- `projects.json` — Tus proyectos
+- `experience.json` — Tu experiencia laboral
+- `tech-stack.json` — Tu stack tecnológico
 
-## Learn More
+O usa el panel admin en [http://localhost:3000/admin](http://localhost:3000/admin).
 
-To learn more about Next.js, take a look at the following resources:
+### 6. Despliega en producción
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+La forma más sencilla es **Vercel** (plataforma de los creadores de Next.js):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# 1. Sube tu repositorio a GitHub
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/tu-usuario/tu-repo.git
+git push -u origin main
 
-## Deploy on Vercel
+# 2. Ve a vercel.com e importa el repositorio
+# 3. Configura las variables de entorno en Vercel (ver sección abajo)
+# 4. ¡Deploy automático en cada push a main! 🚀
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Variables de entorno requeridas en Vercel:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Variable | Obligatoria | Descripción |
+|---|---|---|
+| `ADMIN_SECRET` | ✅ Sí | Contraseña del panel admin |
+| `GITHUB_CLIENT_ID` | ❌ No (para OAuth) | Client ID de GitHub OAuth App |
+| `GITHUB_CLIENT_SECRET` | ❌ No (para OAuth) | Client Secret de GitHub OAuth App |
+| `GITHUB_TOKEN` | ❌ No (alternativa) | Personal Access Token con scope `repo` |
+| `GITHUB_OWNER` | ❌ No | Dueño del repositorio (usuario u organización) |
+| `GITHUB_REPO` | ❌ No | Nombre del repositorio |
+| `GITHUB_BRANCH` | ❌ No | Rama (default: `main`) |
+
+---
+
+## 🔐 Seguridad: Cómo funciona el Panel Admin
+
+### Autenticación
+
+El panel admin está protegido por una **contraseña maestra** (`ADMIN_SECRET`).  
+No hay registro de usuarios, base de datos ni sesiones persistentes — es intencionalmente simple:
+
+1. Ingresas la contraseña en `/admin/login`
+2. Se envía como `Bearer Token` en el header `Authorization`
+3. El backend verifica contra `ADMIN_SECRET`
+4. Si es correcto, se guarda en `sessionStorage` del navegador (se borra al cerrar la pestaña)
+
+> ⚠️ **No uses una contraseña débil ni compartida.** Genera una contraseña larga con un gestor de contraseñas.
+
+### Escritura de datos
+
+- **En desarrollo (localhost):** Los archivos JSON se escriben directamente en `src/data/`
+- **En producción (Vercel):** Los archivos no se pueden escribir en el filesystem (es read-only)
+
+#### ¿Cómo funciona en producción entonces?
+
+Hay dos mecanismos:
+
+---
+
+## 🔄 Auto-commit a GitHub (producción)
+
+Cuando guardas cambios desde el admin en producción, el backend intenta hacer commit y push automáticos al repositorio de GitHub usando **la API de GitHub**.
+
+### Opción 1: OAuth (recomendado para uso interactivo)
+
+El panel admin tiene un botón **"Conectar GitHub"** que inicia el flujo OAuth:
+
+1. Te redirige a GitHub para autorizar la aplicación
+2. GitHub te pide confirmar los permisos (solo `repo` — escritura en repositorios)
+3. Una vez autorizado, recibes un token que se almacena en una **cookie httpOnly** (7 días)
+4. Cada vez que guardas, el backend usa ese token para hacer commit via GitHub API
+
+**Para configurar OAuth:**
+
+1. Ve a [GitHub Settings → Developer settings → OAuth Apps](https://github.com/settings/developers) → **New OAuth App**
+2. **Homepage URL:** `https://tu-dominio.com`
+3. **Authorization callback URL:** `https://tu-dominio.com/api/admin/github/callback`
+4. Copia el **Client ID** y genera un **Client Secret**
+5. Configúralos como `GITHUB_CLIENT_ID` y `GITHUB_CLIENT_SECRET` en Vercel
+
+#### ¿Qué permisos tiene el token?
+
+El scope solicitado es `repo`, que permite:
+- ✅ Leer y escribir el contenido de repositorios públicos y privados
+- ✅ Crear commits, actualizar archivos, crear branches
+- ❌ No tiene acceso a administración de repositorios, settings, ni otros recursos
+
+### Opción 2: Personal Access Token (más simple)
+
+Si prefieres no usar OAuth, puedes crear un **Personal Access Token (PAT)** clásico:
+
+1. Ve a [GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)](https://github.com/settings/tokens)
+2. Genera un token con scope `repo`
+3. Configura las variables de entorno:
+   - `GITHUB_TOKEN=ghp_tu-token`
+   - `GITHUB_OWNER=tu-usuario`
+   - `GITHUB_REPO=nombre-del-repo`
+   - `GITHUB_BRANCH=main` (opcional, default `main`)
+
+Con esto, el admin puede hacer commits sin necesidad del flujo OAuth desde el navegador.
+
+### Opción 3: Mixta (la más segura en producción)
+
+Usa OAuth para la autenticación (el usuario se autentica con su cuenta de GitHub) y configura el owner/repo/branch desde el panel admin (se guarda en sessionStorage del navegador).
+
+De esta forma:
+- ✅ El token OAuth expira después de 7 días (el usuario tiene que reconectar)
+- ✅ El token PAT (si usas) es un secreto de servidor, nunca expuesto al frontend
+- ✅ Cada commit queda registrado con la identidad del usuario que autorizó
+
+### ¿Qué pasa si no configuro GitHub?
+
+Si no hay OAuth ni token configurado, el admin en producción **descargará el archivo JSON modificado** para que puedas hacer commit manualmente. El portafolio sigue funcionando perfectamente — solo pierdes la comodidad del auto-commit.
+
+### Diagrama del flujo OAuth
+
+```
+Usuario                    Frontend (/admin)          Backend (Next.js)            GitHub
+   │                            │                          │                        │
+   │  Click "Conectar GitHub"   │                          │                        │
+   │ ─────────────────────────> │                          │                        │
+   │                            │  GET /api/admin/github/connect                    │
+   │                            │ ──────────────────────> │                        │
+   │                            │                          │ ─── Redirect con ────> │
+   │                            │                          │ state + client_id      │
+   │  ┌─── Autoriza app ────────┼──────────────────────────┼────────────────────────>│
+   │  │                         │                          │                        │
+   │  │<────── Callback con code + state ──────────────────│<────────────────────────│
+   │  │                         │                          │                        │
+   │  │                         │                          │ POST /login/oauth/     │
+   │  │                         │                          │ access_token ─────────> │
+   │  │                         │                          │<── access_token ─────── │
+   │  │                         │                          │                        │
+   │  │                         │                          │ Almacena token en       │
+   │  │                         │                          │ cookie httpOnly (7d)    │
+   │  │                         │<── redirect /admin ──────│                        │
+   │  │<──────────────────────── │   ?github=connected     │                        │
+   │                            │                          │                        │
+   │  Guarda cambios            │                          │                        │
+   │ ─────────────────────────> │                          │                        │
+   │                            │  POST /api/admin/save    │                        │
+   │                            │  + cookie (httpOnly)     │                        │
+   │                            │ ──────────────────────> │                        │
+   │                            │                          │ PUT /repos/.../contents │
+   │                            │                          │ ──────────────────────> │
+   │                            │                          │<── 201 Created ────────│
+   │                            │<── success ─────────────│                        │
+   │<───────────────────────── │                          │                        │
+```
+
+---
+
+## 📁 Estructura del proyecto
+
+```
+portafolio-crimson/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx          ← Layout raíz con metadata y tema
+│   │   ├── page.tsx            ← Página principal
+│   │   ├── globals.css         ← Sistema de diseño Crimson & Ember
+│   │   ├── admin/
+│   │   │   ├── page.tsx        ← Dashboard admin (4 editores)
+│   │   │   └── login/page.tsx  ← Login del admin
+│   │   └── api/admin/
+│   │       ├── data/route.ts   ← GET: leer datos JSON
+│   │       ├── save/route.ts   ← POST: guardar cambios (local) o commit (GitHub)
+│   │       └── github/
+│   │           ├── connect/route.ts   ← Inicia OAuth flow
+│   │           ├── callback/route.ts  ← Recibe el callback de GitHub
+│   │           └── status/route.ts    ← Verifica conexión actual
+│   ├── components/             ← Componentes React
+│   │   ├── header.tsx
+│   │   ├── hero-section.tsx
+│   │   ├── experience-section.tsx
+│   │   ├── projects-section.tsx
+│   │   ├── tech-stack-section.tsx
+│   │   ├── about-section.tsx
+│   │   ├── contact-section.tsx
+│   │   ├── footer.tsx
+│   │   ├── theme-provider.tsx
+│   │   └── language-provider.tsx
+│   ├── data/                   ← 📁 **CMS: edita estos archivos**
+│   │   ├── profile.json
+│   │   ├── projects.json
+│   │   ├── experience.json
+│   │   └── tech-stack.json
+│   ├── lib/
+│   │   ├── utils.ts            ← Utilidad cn() (clsx + tailwind-merge)
+│   │   ├── i18n.ts             ← Sistema de traducciones ES/EN
+│   │   └── tech-icons.tsx      ← Iconos SVG inline (sin dependencias externas)
+│   └── types/index.ts          ← Tipos TypeScript
+├── .env.example                ← Template de variables de entorno
+├── public/
+│   ├── IDemonSan-Logo.svg      ← Logo del header (reemplázalo por tu logo)
+│   ├── IDemon-San-Icon.svg     ← Favicon del sitio (reemplázalo)
+│   └── cv-brandon-huerta.txt   ← CV descargable (reemplázalo)
+└── package.json
+```
+
+---
+
+## 🛠️ Comandos disponibles
+
+| Comando | Descripción |
+|---|---|
+| `npm run dev` | Servidor de desarrollo |
+| `npm run build` | Build de producción |
+| `npm run start` | Servir build de producción |
+| `npm run lint` | Verificar linting |
+
+---
+
+## 🎨 Personalización visual
+
+### Paleta de colores
+
+Las variables CSS están definidas en `src/app/globals.css`.  
+Los modos oscuro y claro tienen sus propios valores:
+
+| Variable | Oscuro | Claro |
+|---|---|---|
+| `--bg-primary` | `#0A0A0F` | `#F5F3EF` |
+| `--crimson` | `#DC2626` | `#B91C1C` |
+| `--ember` | `#F59E0B` | `#D97706` |
+
+Para cambiar los colores, edita las variables CSS en `:root` (claro) y `.dark` (oscuro).
+
+### Tipografía
+
+Se usa **Geist** (de Vercel) como fuente principal. Para cambiarla:
+1. Actualiza la importación en `src/app/layout.tsx`
+2. Actualiza `--font-sans` en `globals.css`
+
+### Iconos
+
+Los iconos de tecnologías están en `src/lib/tech-icons.tsx` como SVGs inline.  
+Para agregar una tecnología, busca su SVG de [Simple Icons](https://simpleicons.org/) y agrégalo al mapa `techIcons`.
+
+---
+
+## 🔒 Análisis de seguridad
+
+| Componente | Medida de seguridad |
+|---|---|
+| **Admin login** | Autenticación por Bearer token contra `ADMIN_SECRET` (env var). Rate limiting: 5 intentos/15 min, bloqueo 30 min. |
+| **GitHub OAuth** | Usa `state` parameter para CSRF protection. Token almacenado en cookie httpOnly. |
+| **Cookies** | `github_token` es httpOnly (no accesible desde JavaScript). `secure` flag en producción. |
+| **Validación de archivos** | Solo permite escribir en los 4 archivos JSON conocidos (`profile.json`, `projects.json`, `experience.json`, `tech-stack.json`). Previene directory traversal. |
+| **Scope mínimo** | El OAuth solo solicita `repo` — el mínimo necesario para hacer commits. |
+| **Sin exposición de secretos** | `ADMIN_SECRET`, `GITHUB_CLIENT_SECRET` y `GITHUB_TOKEN` son variables de entorno del servidor. Nunca se envían al cliente. |
+| **CORS** | Las rutas API solo responden al mismo origen (Next.js server). |
+| **Timing attacks** | Comparación en tiempo constante con `crypto.timingSafeEqual` para evitar ataques de temporización. |
+| **Rate limiting** | Login: 5 intentos/ventana de 15 min (bloqueo 30 min). Save: 20 guardados/ventana de 15 min. Header `Retry-After` y `X-RateLimit-*`. |
+| **XSS** | Las entradas del admin se renderizan como texto (React escapea automáticamente). |
+| **HTTPS** | Vercel forza HTTPS automáticamente en producción. |
+
+### Limitaciones conocidas
+
+- **Logs de auditoría**: ❌ No implementado. No se registra quién hizo qué cambio. Se podría agregar con `console.log` o un servicio externo.
+- **Token expiry**: Si el token OAuth expira (7 días), el usuario debe reconectar. No hay refresh token automático.
+- **Secret viaja en header**: `ADMIN_SECRET` viaja en cada request como Bearer token. Usa HTTPS en producción para evitar interceptación.
+- **Rate limit en memoria**: El rate limiter usa memoria del servidor. En Vercel, los límites se reinician al hacer redeploy o si la función serverless se enfría.
+
+---
+
+## 📝 Licencia
+
+Este proyecto está bajo la **Licencia MIT**. Consulta el archivo [`LICENSE`](/LICENSE) para más detalles.
+
+### ⚠️ Atribución requerida
+
+Si usas este proyecto como plantilla para tu propio portafolio, **debes**:
+
+1. **Mantener el archivo `LICENSE`** con el copyright original de Brandon Huerta
+2. **Dar crédito visible** en tu `README.md`, por ejemplo:
+
+```markdown
+> Este portafolio está basado en la plantilla [Portafolio Crimson & Ember](https://github.com/IDemonSan/portafolio-crimson)
+> de Brandon Huerta.
+```
+
+3. **(Opcional pero apreciado)** Dejar una ⭐ en el [repositorio original](https://github.com/IDemonSan/portafolio-crimson)
+
+El resto del contenido del portafolio (datos personales, imágenes, CV) es tuyo y puedes modificarlo libremente.
+
+---
+
+<div align="center">
+  <sub>Hecho con Next.js, Tailwind CSS y ☕ mucho café</sub>
+</div>

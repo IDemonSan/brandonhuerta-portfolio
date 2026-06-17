@@ -1,0 +1,64 @@
+{
+  "name": "Brandon Mike Huerta Neyra",
+  "initials": "BH",
+  "title": "Desarrollador Full-Stack",
+  "tagline": "Código limpio, soluciones reales.",
+  "subtitle": "Titulado por SENATI · RNP Activo para Consultorías del Estado Peruano",
+  "bio": "Desarrollador de Software con formación técnica sólida y experiencia en el desarrollo de aplicaciones web empresariales. Apasionado por la automatización de procesos, el modelado de datos y la construcción de sistemas escalables. Combino la disciplina del desarrollo con la constancia del Muay Thai para entregar código confiable y bien estructurado.",
+  "location": "Lima, Perú",
+  "email": "brandonmikehuertaneyra@gmail.com",
+  "phone": "903054704",
+  "emails": [
+    "brandonmikehuertaneyra@gmail.com"
+  ],
+  "phones": [
+    "903054704"
+  ],
+  "ruc": "10756024111",
+  "rnpActive": false,
+  "availability": [
+    "Proyectos Freelance",
+    "Consultoría Técnica",
+    "Desarrollo Empresarial",
+    "Colaboraciones Remotas"
+  ],
+  "social": {
+    "github": "https://github.com/IDemonSan",
+    "linkedin": "https://www.linkedin.com/in/brandon-mike-huerta-neyra-693961266/",
+    "whatsapp": "https://wa.me/51903054704",
+    "portfolio": "https://brandon-huerta.is-a.dev"
+  },
+  "skills": [
+    "Java",
+    "Spring Boot",
+    "C#",
+    "ASP.NET MVC",
+    "Python",
+    "Flask",
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "Next.js",
+    "PostgreSQL",
+    "SQL Server",
+    "MySQL",
+    "Git",
+    "Docker",
+    "UML",
+    "BPMN",
+    "Bizagi Modeler",
+    "MVC",
+    "Arquitectura en Capas"
+  ],
+  "visibleSkillsCount": 8,
+  "education": [
+    {
+      "institution": "SENATI",
+      "degree": "Técnico en Desarrollo de Software",
+      "period": "2022 – 2024",
+      "status": "Titulado"
+    }
+  ],
+  "resumeUrl": "/cv-brandon-huerta.txt",
+  "headerImage": "/IDemonSan-Logo.svg"
+}

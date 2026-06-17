@@ -1,26 +1,364 @@
 @import "tailwindcss";
 
+/* ============================================
+   CRIMSON & EMBER - Sistema de Diseño
+   Tema oscuro profundo + claro cálido
+   Con :root (light) y .dark (dark mode)
+   ============================================ */
+
+/* ---- CSS Custom Properties --- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Backgrounds */
+  --bg-primary: #F5F3EF;
+  --bg-secondary: #EDE9E3;
+  --bg-elevated: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F0EDE7;
+
+  /* Borders */
+  --border: #D4CFC7;
+  --border-light: #E5DFD8;
+
+  /* Text */
+  --text-primary: #1A1A2E;
+  --text-secondary: #4A4A5A;
+  --text-muted: #6B6B80;
+
+  /* Accent - Crimson (light mode → deeper red for contrast) */
+  --crimson: #B91C1C;
+  --crimson-hover: #DC2626;
+  --crimson-subtle: rgba(185, 28, 28, 0.08);
+
+  /* Accent - Ember */
+  --ember: #D97706;
+  --ember-hover: #F59E0B;
+  --ember-subtle: rgba(217, 119, 6, 0.08);
+
+  /* Shadows */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-glow: 0 0 20px rgba(185, 28, 28, 0.15);
+  --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  /* Backgrounds */
+  --bg-primary: #0A0A0F;
+  --bg-secondary: #111118;
+  --bg-elevated: #1A1A24;
+  --bg-card: #14141E;
+  --bg-hover: #1E1E2C;
+
+  /* Borders */
+  --border: #2A2A3A;
+  --border-light: #3A3A4E;
+
+  /* Text */
+  --text-primary: #EDEDF0;
+  --text-secondary: #A0A0B0;
+  --text-muted: #6B6B80;
+
+  /* Accent - Crimson (dark mode → bright red) */
+  --crimson: #DC2626;
+  --crimson-hover: #EF4444;
+  --crimson-subtle: rgba(220, 38, 38, 0.1);
+
+  /* Accent - Ember */
+  --ember: #F59E0B;
+  --ember-hover: #FBBF24;
+  --ember-subtle: rgba(245, 158, 11, 0.1);
+
+  /* Shadows */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 20px rgba(220, 38, 38, 0.3);
+  --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ---- Tailwind v4 Theme Tokens ---- */
+@theme {
+  --font-sans: "Geist", "Geist Fallback", system-ui, sans-serif;
+  --font-mono: "Geist Mono", monospace;
+
+  /* Map CSS variables so Tailwind generates utilities that reference them */
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-card: var(--bg-card);
+  --color-bg-hover: var(--bg-hover);
+
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+
+  --color-accent-crimson: var(--crimson);
+  --color-accent-crimson-hover: var(--crimson-hover);
+  --color-accent-crimson-subtle: var(--crimson-subtle);
+
+  --color-accent-ember: var(--ember);
+  --color-accent-ember-hover: var(--ember-hover);
+  --color-accent-ember-subtle: var(--ember-subtle);
+
+  /* Shadows */
+  --shadow-card-dark: var(--shadow-card);
+  --shadow-card-light: var(--shadow-card);
+  --shadow-glow-crimson: var(--shadow-glow);
+  --shadow-glow-ember: 0 0 20px rgba(245, 158, 11, 0.3);
+  --shadow-elevated-dark: var(--shadow-elevated);
+  --shadow-elevated-light: var(--shadow-elevated);
+}
+
+/* ============================
+   BASE STYLES
+   ============================ */
+@layer base {
+  *, *::before, *::after {
+    border-color: var(--border);
+  }
+
+  /* All elements inherit border from the theme; use explicit border-color overrides for special cases */
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  ::selection {
+    background-color: var(--crimson-subtle);
+    color: var(--crimson);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--crimson);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ============================
+   COMPONENT STYLES
+   ============================ */
+@layer components {
+  /* ----- GLASS CARD ----- */
+  .glass-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s ease;
+  }
+
+  .glass-card:hover {
+    border-color: var(--crimson-subtle);
+    box-shadow: var(--shadow-glow), var(--shadow-card);
+  }
+
+  /* ----- CRIMSON BUTTON ----- */
+  .btn-crimson {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    background: var(--crimson);
+    color: white;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-crimson:hover {
+    background: var(--crimson-hover);
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-1px);
+  }
+
+  .btn-crimson:active {
+    transform: translateY(0);
+  }
+
+  /* ----- OUTLINE BUTTON ----- */
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--crimson);
+    color: var(--crimson);
+    background: var(--crimson-subtle);
+    transform: translateY(-1px);
+  }
+
+  /* ----- SECTION ----- */
+  .section {
+    padding: 5rem 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .section { padding: 6rem 1.5rem; }
+  }
+
+  @media (min-width: 1024px) {
+    .section { padding: 8rem 2rem; }
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+    max-width: 42rem;
+  }
+
+  .section-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+
+  @media (min-width: 640px) {
+    .section-title { font-size: 2.25rem; }
+  }
+
+  @media (min-width: 1024px) {
+    .section-title { font-size: 2.75rem; }
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+  }
+
+  /* ----- BADGES ----- */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: var(--crimson-subtle);
+    color: var(--crimson);
+  }
+
+  .badge-amber {
+    background: var(--ember-subtle);
+    color: var(--ember);
+  }
+
+  .badge-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  /* ----- TECH TAG ----- */
+  .tech-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.375rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+  }
+
+  .tech-tag:hover {
+    border-color: var(--crimson-subtle);
+    color: var(--crimson);
+  }
+
+  /* ----- SECTION DIVIDER ----- */
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--border) 20%,
+      var(--crimson-subtle) 50%,
+      var(--border) 80%,
+      transparent
+    );
+  }
+
+  /* ----- CONTAINER ----- */
+  .container-custom {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-custom { padding: 0 1.5rem; }
+  }
+
+  @media (min-width: 1024px) {
+    .container-custom { padding: 0 2rem; }
+  }
+
+  /* ----- UTILITY ALIASES ----- */
+  .bg-primary { background-color: var(--bg-primary); }
+  .bg-secondary { background-color: var(--bg-secondary); }
+  .bg-elevated { background-color: var(--bg-elevated); }
+  .bg-card { background-color: var(--bg-card); }
+  .bg-hover { background-color: var(--bg-hover); }
+
+  .text-primary { color: var(--text-primary); }
+  .text-secondary { color: var(--text-secondary); }
+  .text-muted { color: var(--text-muted); }
+
+  .border-theme { border-color: var(--border); }
+  .border-theme-light { border-color: var(--border-light); }
+
+  .theme-transition {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* ----- ANIMATIONS ----- */
+  .animate-glow-pulse {
+    animation: glowPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(220, 38, 38, 0.2); }
+    50% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.4); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .scroll-indicator {
+    animation: float 2s ease-in-out infinite;
+  }
 }

@@ -1,0 +1,47 @@
+Brandon Mike Huerta Neyra
+903054704 | brandonmikehuertaneyra@gmail.com | RUC: 10756024111 | RNP ACTIVO
+
+PERFIL PROFESIONAL
+Desarrollador de Software titulado por SENATI con sólida formación en programación y desarrollo de sistemas. Experiencia en el desarrollo de aplicaciones web en Java y conocimientos en modelamiento de datos, diagramación de procesos BPMN con Bizagi Modeler, y bases de datos relacionales. Orientado a la mejora continua, adaptable a nuevas tecnologías y con habilidades de análisis funcional para aportar soluciones efectivas y eficientes.
+
+EXPERIENCIA LABORAL
+
+DESARROLLADOR WEB
+División del Observatorio del Crimen - DIRNIC PNP
+Septiembre 2025 – Diciembre 2025
+- Diseño y desarrollo de bases de datos para el almacenamiento de producción policial de las unidades orgánicas pertenecientes a la DIRNIC.
+- Diseño de una aplicación web para la recopilación, validación y gestión de datos.
+- Diseño de reportes de datos almacenados.
+- Diseño de tableros de control para la visualización de los datos.
+
+ASISTENTE TÉCNICO
+Constructora y Consultora Continental S.A.C. - Ancash
+Febrero 2024 – Junio 2025
+- Desarrollo de aplicativos internos en Java y Spring Boot orientados a la gestión documental y estandarización de información técnica en proyectos de construcción y topografía.
+- Diseño de módulos de control y trazabilidad de entregables, asegurando la integridad de los datos y la accesibilidad para diferentes áreas del negocio.
+- Creación de reportes dinámicos y dashboards en Power BI, facilitando el análisis de información técnica y administrativa.
+- Redacción de manuales técnicos y documentación funcional de los sistemas desarrollados, orientados al uso de los aplicativos por personal no técnico.
+
+PROGRAMADOR .NET
+Talent Management Group SAC - Lima
+Noviembre 2023 – Enero 2024
+- Participación en la recopilación y documentación de requerimientos funcionales y no funcionales.
+- Redacción de documentación técnica y de usuario final.
+- Desarrollo de aplicaciones web con C# y ASP.NET MVC 4.0.
+- Mantenimiento de aplicativos de escritorio en .NET.
+- Ejecución de pruebas funcionales basadas en casos de prueba definidos, contribuyendo al aseguramiento de calidad del software.
+- Resolución y seguimiento a incidencias reportadas por usuarios, identificando la causa raíz con el objetivo de brindar soluciones definitivas y mitigar la recurrencia de las mismas.
+
+HABILIDADES TÉCNICAS
+- Lenguajes: Java, C#, C++, C, Python, JavaScript
+- Frameworks: ASP.NET MVC, Spring Boot, Flask
+- Bases de Datos: MySQL, SQL Server, modelado entidad-relación
+- Herramientas: Bizagi Modeler, Visual Studio, NetBeans
+- Modelamiento: UML, BPMN, Casos de Uso, Diagramas ER
+- Metodologías: MVC, arquitectura en capas
+- Otras: Trabajo en equipo, comunicación asertiva, gestión del tiempo, aprendizaje autónomo
+
+EDUCACIÓN
+Técnico en Desarrollo de Software - Titulado
+SENATI - Lima, Perú
+2022 - 2024
