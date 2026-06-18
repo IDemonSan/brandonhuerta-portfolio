@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import fs from "fs"
 import path from "path"
+import { cookies } from "next/headers"
 import {
   checkRateLimit,
   resetRateLimit,
@@ -52,6 +53,54 @@ export async function GET(request: Request) {
     const files = ["profile.json", "experience.json", "projects.json", "tech-stack.json"]
     const data: Record<string, unknown> = {}
 
+    // In production (Vercel), read from GitHub API to avoid stale filesystem data
+    const isProduction = process.env.NODE_ENV === "production" || !!process.env.VERCEL
+
+    if (isProduction) {
+      // Try to get GitHub token
+      const cookieStore = await cookies()
+      const oauthToken = cookieStore.get("github_token")?.value
+      const githubToken = oauthToken || process.env.GITHUB_TOKEN
+      const owner = process.env.GITHUB_OWNER
+      const repo = process.env.GITHUB_REPO
+
+      if (githubToken && owner && repo) {
+        const branch = process.env.GITHUB_BRANCH || "main"
+        let fetchedAny = false
+
+        for (const file of files) {
+          const url = `https://api.github.com/repos/${owner}/${repo}/contents/src/data/${file}?ref=${branch}`
+          const res = await fetch(url, {
+            headers: {
+              Authorization: `Bearer ${githubToken}`,
+              Accept: "application/vnd.github.v3+json",
+              "User-Agent": `${owner}/${repo}`,
+            },
+            cache: "no-store",
+          })
+
+          if (res.ok) {
+            const fileData = await res.json()
+            const decoded = Buffer.from(fileData.content, "base64").toString("utf-8")
+            data[file.replace(".json", "")] = JSON.parse(decoded)
+            fetchedAny = true
+          } else {
+            console.error(`GitHub API error fetching ${file}: ${res.status}`)
+          }
+        }
+
+        if (fetchedAny) {
+          return withSecurityHeaders(NextResponse.json({ success: true, data }))
+        }
+
+        console.error("GitHub API: no se pudo obtener ningún archivo, usando filesystem como fallback")
+      }
+
+      // Fallback: GitHub data fetch no disponible, usar filesystem
+      console.log("GitHub data fetch no disponible (sin token o API falló), usando filesystem como fallback")
+    }
+
+    // Development or fallback: read from filesystem
     for (const file of files) {
       const filePath = path.join(DATA_DIR, file)
       if (fs.existsSync(filePath)) {

@@ -18,6 +18,7 @@ export async function GET() {
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: "application/vnd.github.v3+json",
+      "User-Agent": "brandonhuerta-portfolio",
     },
   })
 

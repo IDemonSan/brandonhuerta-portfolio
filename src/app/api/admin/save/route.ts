@@ -43,7 +43,9 @@ async function commitToGitHub(
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: "application/vnd.github.v3+json",
+      "User-Agent": `${owner}/${repo}`,
     },
+    cache: "no-store",
   })
 
   let sha: string | undefined
@@ -60,6 +62,7 @@ async function commitToGitHub(
       Authorization: `Bearer ${token}`,
       Accept: "application/vnd.github.v3+json",
       "Content-Type": "application/json",
+      "User-Agent": `${owner}/${repo}`,
     },
     body: JSON.stringify({
       message: `Actualizar ${file} desde admin panel`,
