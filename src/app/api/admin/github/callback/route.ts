@@ -77,11 +77,16 @@ export async function GET(request: Request) {
   })
 
   // Get the authenticated user's info
+  const userAgent = process.env.GITHUB_USER_AGENT ||
+    (process.env.GITHUB_OWNER && process.env.GITHUB_REPO
+      ? `${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}`
+      : "brandonhuerta-portfolio")
+
   const userRes = await fetch("https://api.github.com/user", {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Accept: "application/vnd.github.v3+json",
-      "User-Agent": "brandonhuerta-portfolio",
+      "User-Agent": userAgent,
     },
   })
 

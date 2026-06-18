@@ -14,11 +14,16 @@ export async function GET() {
   }
 
   // Verify token is still valid by fetching user
+  const userAgent = process.env.GITHUB_USER_AGENT ||
+    (process.env.GITHUB_OWNER && process.env.GITHUB_REPO
+      ? `${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}`
+      : "brandonhuerta-portfolio")
+
   const userRes = await fetch("https://api.github.com/user", {
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: "application/vnd.github.v3+json",
-      "User-Agent": "brandonhuerta-portfolio",
+      "User-Agent": userAgent,
     },
   })
 
