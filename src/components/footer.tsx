@@ -4,10 +4,12 @@ import { Github, Linkedin, Mail, Heart } from "lucide-react"
 import { usePathname } from "next/navigation"
 import type { Profile } from "@/types"
 import profileData from "@/data/profile.json"
+import { useTranslations } from "@/components/language-provider"
 
 const profile = profileData as Profile
 
 export function Footer() {
+  const { t } = useTranslations()
   const pathname = usePathname()
   // Hide footer on admin pages
   if (pathname?.startsWith("/admin")) return null
@@ -27,22 +29,22 @@ export function Footer() {
           {/* Navigation */}
           <div>
             <h4 className="font-semibold text-primary mb-4 text-sm tracking-wider uppercase">
-              Navegación
+              {t("footer.nav")}
             </h4>
             <ul className="space-y-2 text-sm text-secondary">
               {[
-                { label: "Inicio", href: "#hero" },
-                { label: "Trayectoria", href: "#experience" },
-                { label: "Proyectos", href: "#projects" },
-                { label: "Stack Técnico", href: "#tech" },
-                { label: "Contacto", href: "#contact" },
+                { labelKey: "nav.home", href: "#hero" },
+                { labelKey: "nav.experience", href: "#experience" },
+                { labelKey: "nav.projects", href: "#projects" },
+                { labelKey: "nav.stack", href: "#tech" },
+                { labelKey: "nav.contact", href: "#contact" },
               ].map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
                     className="hover:text-accent-crimson transition-colors"
                   >
-                    {link.label}
+                    {t(link.labelKey)}
                   </a>
                 </li>
               ))}
@@ -52,7 +54,7 @@ export function Footer() {
           {/* Social */}
           <div>
             <h4 className="font-semibold text-primary mb-4 text-sm tracking-wider uppercase">
-              Conectar
+              {t("footer.connect")}
             </h4>
             <div className="flex gap-3">
               <a
@@ -87,7 +89,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="border-t border-theme pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted">
-            © {year} {profile.name}. Todos los derechos reservados.
+            © {year} {profile.name}. {t("footer.rights")}
           </p>
         </div>
       </div>

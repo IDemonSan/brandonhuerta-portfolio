@@ -16,17 +16,17 @@ export function ContactSection() {
   const contactMethods = [
     {
       icon: Mail,
-      label: "Correo Electrónico",
+      label: t("contact.email.label"),
       value: emails[0],
       href: `mailto:${emails[0]}`,
-      description: emails.length > 1 ? `${emails.length} direcciones disponibles` : "Respuesta en menos de 24 horas",
+      description: emails.length > 1 ? `${emails.length} ${t("contact.email.multiple")}` : t("contact.email.desc"),
     },
     {
       icon: Phone,
-      label: "Teléfono / WhatsApp",
+      label: t("contact.phone.label"),
       value: `+51 ${phones[0]}`,
       href: `https://wa.me/51${phones[0]}`,
-      description: phones.length > 1 ? `${phones.length} números de contacto` : "Disponible para consultas rápidas",
+      description: phones.length > 1 ? `${phones.length} ${t("contact.phone.multiple")}` : t("contact.phone.desc"),
     },
   ]
 
@@ -35,13 +35,13 @@ export function ContactSection() {
       icon: Github,
       label: "GitHub",
       href: profile.social.github,
-      description: "Código abierto y proyectos",
+      description: t("contact.github.desc"),
     },
     {
       icon: Linkedin,
       label: "LinkedIn",
       href: profile.social.linkedin,
-      description: "Perfil profesional y red",
+      description: t("contact.linkedin.desc"),
     },
   ]
 
@@ -76,7 +76,7 @@ export function ContactSection() {
                   <p className="text-sm text-muted mb-0.5">{t("contact.location")}</p>
                   <p className="font-medium text-primary">{profile.location}</p>
                   <p className="text-sm text-secondary mt-1">
-                    Remoto · Híbrido · Presencial (Lima)
+                    {t("contact.location.desc")}
                   </p>
                 </div>
               </div>
@@ -126,18 +126,18 @@ export function ContactSection() {
               <h3 className="font-semibold text-primary mb-4">{t("contact.info")}</h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-between py-3 border-b border-theme">
-                  <span className="text-muted text-sm">RUC</span>
+                  <span className="text-muted text-sm">{t("contact.ruc")}</span>
                   <span className="font-mono text-secondary text-sm">{profile.ruc}</span>
                 </div>
                 <div className="flex items-center justify-between py-3 border-b border-theme">
-                  <span className="text-muted text-sm">RNP</span>
+                  <span className="text-muted text-sm">{t("contact.rnp")}</span>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-accent-crimson-subtle text-accent-crimson border border-accent-crimson/20">
                     <CheckCircle className="w-3 h-3" />
-                    Activo
+                    {t("contact.rnp.active")}
                   </span>
                 </div>
                 <div className="py-3">
-                  <span className="text-muted text-sm block mb-2">Disponibilidad</span>
+                  <span className="text-muted text-sm block mb-2">{t("contact.availability")}</span>
                   <div className="flex flex-wrap gap-2">
                     {profile.availability.map((item) => (
                       <span key={item} className="badge badge-outline">
@@ -151,7 +151,7 @@ export function ContactSection() {
 
             {/* Social */}
             <div className="glass-card p-6">
-              <h3 className="font-semibold text-primary mb-4">Redes Profesionales</h3>
+              <h3 className="font-semibold text-primary mb-4">{t("contact.social")}</h3>
               <div className="grid grid-cols-2 gap-3">
                 {socialLinks.map((social, index) => {
                   const Icon = social.icon
@@ -189,11 +189,11 @@ export function ContactSection() {
                 href={`mailto:${profile.email}?subject=Contacto%20desde%20Portafolio`}
                 className="btn-crimson w-full justify-center group text-base"
               >
-                Iniciar Conversación
+                {t("contact.cta")}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
               <p className="text-center text-xs text-muted mt-3">
-                Respuesta garantizada en menos de 24 horas hábiles
+                {t("contact.response")}
               </p>
             </motion.div>
           </motion.div>

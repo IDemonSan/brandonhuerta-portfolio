@@ -7,6 +7,7 @@ import { techIcons } from "@/lib/tech-icons"
 import { cn } from "@/lib/utils"
 import type { TechCategory } from "@/types"
 import techStackData from "@/data/tech-stack.json"
+import { useTranslations } from "@/components/language-provider"
 
 const techStack = techStackData as TechCategory[]
 
@@ -45,6 +46,7 @@ const techIconMap: Record<string, React.ElementType> = {
 }
 
 export function TechStackSection() {
+  const { t } = useTranslations()
   const [activeCategory, setActiveCategory] = useState(techStack[0].category)
 
   return (
@@ -56,11 +58,8 @@ export function TechStackSection() {
           viewport={{ once: true }}
           className="section-header"
         >
-          <h2 className="section-title">Stack Técnico</h2>
-          <p className="section-subtitle">
-            Tecnologías con las que he trabajado en proyectos reales. Sin etiquetas de nivel —
-            lo importante no es cuánto sabes, sino lo que puedes construir.
-          </p>
+          <h2 className="section-title">{t("tech.title")}</h2>
+          <p className="section-subtitle">{t("tech.subtitle")}</p>
         </motion.div>
 
         {/* Category Tabs */}
@@ -144,7 +143,7 @@ export function TechStackSection() {
             }
             className="inline-flex items-center gap-2 text-secondary hover:text-primary transition-colors group"
           >
-            ¿Necesitas algo específico? Hablemos
+            {t("tech.cta")}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </motion.div>

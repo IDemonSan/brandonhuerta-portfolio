@@ -3,10 +3,13 @@
 import { motion } from "framer-motion"
 import { ExternalLink, Github, ArrowRight, Map, Smartphone, Image, Shield } from "lucide-react"
 import { cn } from "@/lib/utils"
-import type { Project } from "@/types"
+import type { Project, Profile } from "@/types"
 import projectsData from "@/data/projects.json"
+import profileData from "@/data/profile.json"
+import { useTranslations } from "@/components/language-provider"
 
 const projects = projectsData as Project[]
+const profile = profileData as Profile
 
 const projectIcons: Record<string, React.ElementType> = {
   "pos-copycenter": Smartphone,
@@ -16,7 +19,7 @@ const projectIcons: Record<string, React.ElementType> = {
   "geoportal-seguridad": Map,
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectCard({ project, index, t }: { project: Project; index: number; t: (key: string) => string }) {
   const Icon = projectIcons[project.id] || Shield
 
   return (
@@ -62,7 +65,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       <div className="px-6 pb-4 space-y-3 flex-1">
         <div>
           <span className="text-[0.65rem] font-semibold text-muted uppercase tracking-widest">
-            Problema
+            {t("projects.problem")}
           </span>
           <p className="text-sm text-secondary mt-1 leading-relaxed">
             {project.problem}
@@ -70,7 +73,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         </div>
         <div>
           <span className="text-[0.65rem] font-semibold text-muted uppercase tracking-widest">
-            Solución
+            {t("projects.solution")}
           </span>
           <p className="text-sm text-secondary mt-1 leading-relaxed">
             {project.solution}
@@ -106,7 +109,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 className="btn-outline flex-1 justify-center py-2.5 text-sm"
               >
                 <Github className="w-4 h-4" />
-                Código
+                {t("projects.code")}
               </a>
             )}
             {project.links.demo && (
@@ -117,14 +120,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 className="btn-crimson flex-1 justify-center py-2.5 text-sm"
               >
                 <ExternalLink className="w-4 h-4" />
-                Demo
+                {t("projects.demo")}
               </a>
             )}
             {!project.links.github && !project.links.demo && (
               <span className="flex-1 text-center text-xs text-muted py-2.5">
                 {project.badges?.includes("Conceptual")
-                  ? "Proyecto conceptual — disponible bajo solicitud"
-                  : "En proceso — pronto disponible"}
+                  ? t("projects.conceptual")
+                  : t("projects.inProgress")}
               </span>
             )}
           </div>
@@ -135,6 +138,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 }
 
 export function ProjectsSection() {
+  const { t } = useTranslations()
   return (
     <section id="projects" className="section">
       <div className="container-custom">
@@ -144,11 +148,8 @@ export function ProjectsSection() {
           viewport={{ once: true }}
           className="section-header"
         >
-          <h2 className="section-title">Proyectos</h2>
-          <p className="section-subtitle">
-            Una mezcla de proyectos reales en producción y conceptos arquitectónicos.
-            Cada uno resolviendo un problema concreto con un enfoque práctico.
-          </p>
+          <h2 className="section-title">{t("projects.title")}</h2>
+          <p className="section-subtitle">{t("projects.subtitle")}</p>
         </motion.div>
 
         {/* Featured Projects */}
@@ -156,7 +157,7 @@ export function ProjectsSection() {
           {projects
             .filter((p) => p.featured)
             .map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
+              <ProjectCard key={project.id} project={project} index={index} t={t} />
             ))}
         </div>
 
@@ -169,7 +170,7 @@ export function ProjectsSection() {
               viewport={{ once: true }}
               className="mb-8"
             >
-              <h3 className="text-xl font-semibold text-primary">Otros Proyectos</h3>
+              <h3 className="text-xl font-semibold text-primary">{t("projects.other")}</h3>
               <div className="section-divider mt-4" />
             </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -180,6 +181,7 @@ export function ProjectsSection() {
                     key={project.id}
                     project={project}
                     index={index + projects.filter((p) => p.featured).length}
+                    t={t}
                   />
                 ))}
             </div>
@@ -195,13 +197,13 @@ export function ProjectsSection() {
           className="mt-12 text-center"
         >
           <a
-            href="https://github.com/IDemonSan"
+            href={profile.social.github}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-outline group"
           >
             <Github className="w-4 h-4" />
-            Ver más en GitHub
+            {t("projects.cta")}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
         </motion.div>

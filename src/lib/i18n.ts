@@ -60,6 +60,7 @@ export const dict: TranslationDict = {
   "projects.problem": { es: "Problema", en: "Problem" },
   "projects.solution": { es: "Solución", en: "Solution" },
   "projects.code": { es: "Código", en: "Code" },
+  "projects.demo": { es: "Demo", en: "Demo" },
   "projects.conceptual": { es: "Proyecto conceptual — disponible bajo solicitud", en: "Conceptual project — available upon request" },
   "projects.inProgress": { es: "En proceso — pronto disponible", en: "In progress — coming soon" },
   "projects.cta": { es: "Ver más en GitHub", en: "See more on GitHub" },

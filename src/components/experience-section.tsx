@@ -3,19 +3,24 @@
 import { motion } from "framer-motion"
 import { Calendar, CheckCircle, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
-import type { Experience } from "@/types"
+import type { Experience, Profile } from "@/types"
 import experienceData from "@/data/experience.json"
+import profileData from "@/data/profile.json"
+import { useTranslations } from "@/components/language-provider"
 
 const experiences = experienceData as Experience[]
+const profile = profileData as Profile
 
 function ExperienceItem({
   experience,
   index,
   isLast,
+  t,
 }: {
   experience: Experience
   index: number
   isLast: boolean
+  t: (key: string) => string
 }) {
   return (
     <motion.div
@@ -68,7 +73,7 @@ function ExperienceItem({
 
         {/* Technologies */}
         <div className="flex flex-wrap gap-1.5 pt-4 border-t border-theme">
-          <span className="text-xs text-muted mr-1 self-center">Stack:</span>
+          <span className="text-xs text-muted mr-1 self-center">{t("experience.stack")}</span>
           {experience.technologies.map((tech) => (
             <span key={tech} className="tech-tag">
               {tech}
@@ -81,6 +86,7 @@ function ExperienceItem({
 }
 
 export function ExperienceSection() {
+  const { t } = useTranslations()
   return (
     <section id="experience" className="section bg-bg-secondary/30">
       <div className="container-custom max-w-4xl">
@@ -90,10 +96,9 @@ export function ExperienceSection() {
           viewport={{ once: true }}
           className="section-header"
         >
-          <h2 className="section-title">Trayectoria</h2>
+          <h2 className="section-title">{t("experience.title")}</h2>
           <p className="section-subtitle">
-            Experiencia real en sectores público y privado, construyendo sistemas
-            que resuelven problemas concretos. Cada rol me ha enseñado algo distinto.
+            {t("experience.subtitle")}
           </p>
         </motion.div>
 
@@ -105,6 +110,7 @@ export function ExperienceSection() {
               experience={exp}
               index={index}
               isLast={index === experiences.length - 1}
+              t={t}
             />
           ))}
         </div>
@@ -117,8 +123,8 @@ export function ExperienceSection() {
           transition={{ delay: 0.3 }}
           className="mt-8 text-center"
         >
-          <a href="/cv-brandon-huerta.txt" download className="btn-outline group">
-            Descargar CV Completo
+          <a href={profile.resumeUrl} download className="btn-outline group">
+            {t("experience.cta")}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
         </motion.div>
