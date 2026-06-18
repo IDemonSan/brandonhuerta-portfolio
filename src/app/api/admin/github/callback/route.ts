@@ -1,70 +1,67 @@
-import { NextResponse } from "next/server"
-import { cookies } from "next/headers"
+import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
-  const code = searchParams.get("code")
-  const state = searchParams.get("state")
-  const error = searchParams.get("error")
+  const { searchParams } = new URL(request.url);
+  const code = searchParams.get("code");
+  const state = searchParams.get("state");
+  const error = searchParams.get("error");
 
-  const cookieStore = await cookies()
+  const cookieStore = await cookies();
 
   if (error) {
     return NextResponse.redirect(
-      new URL("/admin?github=error&reason=" + error, request.url)
-    )
+      new URL("/admin?github=error&reason=" + error, request.url),
+    );
   }
 
   if (!code || !state) {
     return NextResponse.redirect(
-      new URL("/admin?github=error&reason=missing_params", request.url)
-    )
+      new URL("/admin?github=error&reason=missing_params", request.url),
+    );
   }
 
   // Verify state matches
-  const storedState = cookieStore.get("github_oauth_state")?.value
+  const storedState = cookieStore.get("github_oauth_state")?.value;
   if (!storedState || storedState !== state) {
     return NextResponse.redirect(
-      new URL("/admin?github=error&reason=state_mismatch", request.url)
-    )
+      new URL("/admin?github=error&reason=state_mismatch", request.url),
+    );
   }
 
   // Clear state cookie
-  cookieStore.delete("github_oauth_state")
+  cookieStore.delete("github_oauth_state");
 
-  const clientId = process.env.GITHUB_CLIENT_ID
-  const clientSecret = process.env.GITHUB_CLIENT_SECRET
+  const clientId = process.env.GITHUB_CLIENT_ID;
+  const clientSecret = process.env.GITHUB_CLIENT_SECRET;
 
   if (!clientId || !clientSecret) {
     return NextResponse.redirect(
-      new URL("/admin?github=error&reason=missing_config", request.url)
-    )
+      new URL("/admin?github=error&reason=missing_config", request.url),
+    );
   }
 
   // Exchange code for access token
-  const tokenRes = await fetch(
-    "https://github.com/login/oauth/access_token",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        client_id: clientId,
-        client_secret: clientSecret,
-        code,
-      }),
-    }
-  )
+  const tokenRes = await fetch("https://github.com/login/oauth/access_token", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      client_id: clientId,
+      client_secret: clientSecret,
+      code,
+    }),
+  });
 
-  const tokenData = await tokenRes.json()
-  const accessToken = tokenData.access_token
+  const tokenData = await tokenRes.json();
+  const accessToken = tokenData.access_token;
 
   if (!accessToken) {
     return NextResponse.redirect(
-      new URL("/admin?github=error&reason=token_exchange_failed", request.url)
-    )
+      new URL("/admin?github=error&reason=token_exchange_failed", request.url),
+    );
   }
 
   // Store token in httpOnly cookie (7 days)
@@ -74,13 +71,20 @@ export async function GET(request: Request) {
     sameSite: "lax",
     maxAge: 60 * 60 * 24 * 7,
     path: "/",
-  })
+  });
 
-  // Get the authenticated user's info
-  const userAgent = process.env.GITHUB_USER_AGENT ||
-    (process.env.GITHUB_OWNER && process.env.GITHUB_REPO
-      ? `${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}`
-      : "brandonhuerta-portfolio")
+  const owner = process.env.GITHUB_OWNER;
+  const repo = process.env.GITHUB_REPO;
+
+  // Validación previa: Si el entorno está incompleto, detenemos la ejecución de inmediato
+  if (!owner || !repo) {
+    throw new Error(
+      "Missing required GITHUB_OWNER or GITHUB_REPO environment variables.",
+    );
+  }
+
+  // El User-Agent ahora es 100% dinámico y basado en los metadatos de tu repositorio activo
+  const userAgent = process.env.GITHUB_USER_AGENT || `${owner}/${repo}`;
 
   const userRes = await fetch("https://api.github.com/user", {
     headers: {
@@ -88,12 +92,12 @@ export async function GET(request: Request) {
       Accept: "application/vnd.github.v3+json",
       "User-Agent": userAgent,
     },
-  })
+  });
 
-  let githubUser = "GitHub"
+  let githubUser = "GitHub";
   if (userRes.ok) {
-    const userData = await userRes.json()
-    githubUser = userData.login
+    const userData = await userRes.json();
+    githubUser = userData.login;
 
     // Store GitHub username for convenience
     cookieStore.set("github_login", githubUser, {
@@ -102,11 +106,11 @@ export async function GET(request: Request) {
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 7,
       path: "/",
-    })
+    });
   }
 
   // Redirect back to admin with success
   return NextResponse.redirect(
-    new URL(`/admin?github=connected&user=${githubUser}`, request.url)
-  )
+    new URL(`/admin?github=connected&user=${githubUser}`, request.url),
+  );
 }
