@@ -165,10 +165,8 @@ export default function AdminPage() {
             a.download = json.filename
             a.click()
             URL.revokeObjectURL(url)
-            showToast(
-              `✅ ${file} exportado. Haz commit y push para desplegar.`,
-              "success"
-            )
+            // Show the actual error/reason from the API
+            showToast(json.message || `⚠️ ${file} exportado. Descárgalo y haz commit manualmente.`, "error")
           } else {
             showToast(`✅ ${file} guardado correctamente`, "success")
             // Update local data

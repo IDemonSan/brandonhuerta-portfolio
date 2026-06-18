@@ -137,15 +137,26 @@ export async function POST(request: Request) {
       const cookieStore = await cookies()
       const oauthToken = cookieStore.get("github_token")?.value
 
-      // Try GitHub commit with OAuth token or env var
+      // Resolve token: OAuth cookie > GITHUB_TOKEN env var
       const githubToken = oauthToken || process.env.GITHUB_TOKEN
 
-      if (githubToken || (repoOwner && repoName)) {
+      // Resolve repo: request body > env vars
+      const hasRepoFromBody = !!(repoOwner && repoName)
+      const hasRepoFromEnv = !!(process.env.GITHUB_OWNER && process.env.GITHUB_REPO)
+      const resolvedOwner = repoOwner || process.env.GITHUB_OWNER
+      const resolvedRepo = repoName || process.env.GITHUB_REPO
+      const resolvedBranch = repoBranch || process.env.GITHUB_BRANCH || "main"
+
+      // Need BOTH a token AND repo info to commit
+      const hasToken = !!githubToken
+      const hasRepo = hasRepoFromBody || hasRepoFromEnv
+
+      if (hasToken && hasRepo) {
         const result = await commitToGitHub(file, content, {
           token: githubToken,
-          owner: repoOwner || process.env.GITHUB_OWNER,
-          repo: repoName || process.env.GITHUB_REPO,
-          branch: repoBranch || process.env.GITHUB_BRANCH,
+          owner: resolvedOwner,
+          repo: resolvedRepo,
+          branch: resolvedBranch,
         })
 
         if (result.ok) {
@@ -162,7 +173,18 @@ export async function POST(request: Request) {
         console.error("GitHub commit failed:", result.error)
       }
 
-      // Fallback: return the content as downloadable response
+      // Fallback: build a helpful error message explaining what's missing
+      let fallbackMessage = ""
+      if (!hasToken && !hasRepo) {
+        fallbackMessage = "❌ No hay token de GitHub ni datos del repositorio. Conecta tu cuenta GitHub desde el panel admin (botón \"Conectar GitHub\") o configura GITHUB_TOKEN en las variables de entorno."
+      } else if (!hasToken) {
+        fallbackMessage = "❌ No hay token de GitHub. Conecta tu cuenta desde el botón \"Conectar GitHub\" en el panel admin, o agrega GITHUB_TOKEN a las variables de entorno."
+      } else if (!hasRepo) {
+        fallbackMessage = "❌ Faltan datos del repositorio (owner/repo). Configúralos en el panel admin (engranaje ⚙️ junto al nombre de usuario de GitHub) o agrega GITHUB_OWNER y GITHUB_REPO a las variables de entorno."
+      } else {
+        fallbackMessage = "❌ Error al conectar con GitHub. Descarga el archivo y haz commit manualmente."
+      }
+
       const jsonContent = JSON.stringify(content, null, 2)
       return withSecurityHeaders(
         NextResponse.json({
@@ -170,7 +192,7 @@ export async function POST(request: Request) {
           downloadable: true,
           filename: file,
           content: jsonContent,
-          message: "GitHub no configurado o falló. Descarga el archivo y haz commit manualmente.",
+          message: fallbackMessage,
         })
       )
     }
