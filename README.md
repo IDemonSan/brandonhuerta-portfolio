@@ -9,16 +9,16 @@ Construido con **Next.js 16**, **Tailwind CSS v4** y **Framer Motion**.
 
 ## ✨ Características
 
-| Característica | Descripción |
-|---|---|
-| 🌙☀️ **Tema oscuro/claro** | Paleta única "Crimson & Ember" — sin azul genérico |
-| 📝 **CMS basado en JSON** | Edita `src/data/*.json` y los cambios se reflejan al hacer deploy |
-| 🛠️ **Panel Admin** | `/admin` — formularios para gestionar todo el contenido |
+| Característica              | Descripción                                                               |
+| --------------------------- | ------------------------------------------------------------------------- |
+| 🌙☀️ **Tema oscuro/claro**  | Paleta única "Crimson & Ember" — sin azul genérico                        |
+| 📝 **CMS basado en JSON**   | Edita `src/data/*.json` y los cambios se reflejan al hacer deploy         |
+| 🛠️ **Panel Admin**          | `/admin` — formularios para gestionar todo el contenido                   |
 | 🔄 **Auto-commit a GitHub** | Los cambios en admin se suben automáticamente al repo (vía OAuth o token) |
-| 🌐 **i18n** | Español e Inglés integrados con toggle en el header |
-| 📱 **Responsive** | Diseño adaptativo con menú mobile |
-| ⚡ **Animaciones** | Transiciones suaves con Framer Motion |
-| 🖼️ **Iconos inline SVG** | Sin dependencias pesadas — SVGs optimizados a mano |
+| 🌐 **i18n**                 | Español e Inglés integrados con toggle en el header                       |
+| 📱 **Responsive**           | Diseño adaptativo con menú mobile                                         |
+| ⚡ **Animaciones**          | Transiciones suaves con Framer Motion                                     |
+| 🖼️ **Iconos inline SVG**    | Sin dependencias pesadas — SVGs optimizados a mano                        |
 
 ---
 
@@ -47,6 +47,7 @@ cp .env.example .env.local
 ```
 
 Edita `.env.local` y cambia al menos:
+
 ```
 ADMIN_SECRET=una-contraseña-segura-aleatoria
 ```
@@ -62,6 +63,7 @@ Abre [http://localhost:3000](http://localhost:3000).
 ### 5. Personaliza el contenido
 
 Edita los archivos en `src/data/`:
+
 - `profile.json` — Tu información personal
 - `projects.json` — Tus proyectos
 - `experience.json` — Tu experiencia laboral
@@ -88,15 +90,15 @@ git push -u origin main
 
 **Variables de entorno requeridas en Vercel:**
 
-| Variable | ¿Obligatoria? | ¿Para qué? |
-|---|---|---|
-| `ADMIN_SECRET` | ✅ **Siempre** | Contraseña del panel `/admin` — sin esto no puedes ni iniciar sesión |
-| `GITHUB_CLIENT_ID` | ⚠️ Con OAuth | Client ID de tu GitHub OAuth App |
-| `GITHUB_CLIENT_SECRET` | ⚠️ Con OAuth | Client Secret de tu GitHub OAuth App |
-| `GITHUB_TOKEN` | ⚠️ Con PAT | Personal Access Token clásico con scope `repo` |
-| `GITHUB_OWNER` | ✅ **Con auto-commit** | Tu usuario de GitHub (ej: `IDemonSan`) |
-| `GITHUB_REPO` | ✅ **Con auto-commit** | Nombre del repositorio (ej: `mi-portafolio`) |
-| `GITHUB_BRANCH` | ⚠️ Recomendada | Rama del repo (default: `main`). **Si tu repo usa `master`, debes configurarlo** |
+| Variable               | ¿Obligatoria?          | ¿Para qué?                                                                       |
+| ---------------------- | ---------------------- | -------------------------------------------------------------------------------- |
+| `ADMIN_SECRET`         | ✅ **Siempre**         | Contraseña del panel `/admin` — sin esto no puedes ni iniciar sesión             |
+| `GITHUB_CLIENT_ID`     | ⚠️ Con OAuth           | Client ID de tu GitHub OAuth App                                                 |
+| `GITHUB_CLIENT_SECRET` | ⚠️ Con OAuth           | Client Secret de tu GitHub OAuth App                                             |
+| `GITHUB_TOKEN`         | ⚠️ Con PAT             | Personal Access Token clásico con scope `repo`                                   |
+| `GITHUB_OWNER`         | ✅ **Con auto-commit** | Tu usuario de GitHub (ej: `IDemonSan`)                                           |
+| `GITHUB_REPO`          | ✅ **Con auto-commit** | Nombre del repositorio (ej: `mi-portafolio`)                                     |
+| `GITHUB_BRANCH`        | ⚠️ Recomendada         | Rama del repo (default: `main`). **Si tu repo usa `master`, debes configurarlo** |
 
 > **Resumen:** Para que el auto-commit funcione, necesitas SIEMPRE `GITHUB_OWNER` y `GITHUB_REPO`. Luego escoges: OAuth (`GITHUB_CLIENT_ID` + `GITHUB_CLIENT_SECRET`) o PAT (`GITHUB_TOKEN`). `GITHUB_BRANCH` es necesaria si tu rama no se llama `main`.
 
@@ -138,13 +140,13 @@ El token se almacena en una cookie httpOnly y funciona por 7 días.
 
 **Variables necesarias (las 4):**
 
-| Variable | Valor ejemplo |
-|---|---|
-| `GITHUB_CLIENT_ID` | `Iv1.xxxxxxxxxxxx` (de tu OAuth App) |
-| `GITHUB_CLIENT_SECRET` | `xxxxxxxxxxxxxxxx` (de tu OAuth App) |
-| `GITHUB_OWNER` | `IDemonSan` (tu usuario de GitHub) |
-| `GITHUB_REPO` | `mi-portafolio` (nombre del repo) |
-| `GITHUB_BRANCH` | `master` (solo si tu rama no es `main`) |
+| Variable               | Valor ejemplo                           |
+| ---------------------- | --------------------------------------- |
+| `GITHUB_CLIENT_ID`     | `Iv1.xxxxxxxxxxxx` (de tu OAuth App)    |
+| `GITHUB_CLIENT_SECRET` | `xxxxxxxxxxxxxxxx` (de tu OAuth App)    |
+| `GITHUB_OWNER`         | `IDemonSan` (tu usuario de GitHub)      |
+| `GITHUB_REPO`          | `mi-portafolio` (nombre del repo)       |
+| `GITHUB_BRANCH`        | `master` (solo si tu rama no es `main`) |
 
 **Para crear la OAuth App:**
 
@@ -154,6 +156,7 @@ El token se almacena en una cookie httpOnly y funciona por 7 días.
 4. Copia el **Client ID** y genera un **Client Secret**
 
 Luego en el admin:
+
 1. Haz clic en **"Conectar GitHub"** → autoriza la app
 2. Verás tu nombre de usuario en el header ✅
 3. ¡Listo! Al guardar, el commit se hace automáticamente
@@ -164,6 +167,7 @@ Luego en el admin:
 #### ¿Qué permisos tiene el token OAuth?
 
 El scope solicitado es `repo`, que permite:
+
 - ✅ Leer y escribir contenido de repositorios públicos y privados
 - ✅ Crear commits y actualizar archivos
 - ❌ No tiene acceso a settings del repo, usuarios, ni otros recursos de GitHub
@@ -176,11 +180,11 @@ Si prefieres no usar el flujo OAuth, crea un **Personal Access Token clásico** 
 
 **Variables necesarias (las 4):**
 
-| Variable | Valor ejemplo |
-|---|---|
-| `GITHUB_TOKEN` | `ghp_xxxxxxxxxxxxxxxxxxxx` |
-| `GITHUB_OWNER` | `IDemonSan` |
-| `GITHUB_REPO` | `mi-portafolio` |
+| Variable        | Valor ejemplo                           |
+| --------------- | --------------------------------------- |
+| `GITHUB_TOKEN`  | `ghp_xxxxxxxxxxxxxxxxxxxx`              |
+| `GITHUB_OWNER`  | `IDemonSan`                             |
+| `GITHUB_REPO`   | `mi-portafolio`                         |
 | `GITHUB_BRANCH` | `master` (solo si tu rama no es `main`) |
 
 **Para crear el token:**
@@ -217,102 +221,123 @@ Sin OAuth, sin token y sin repo configurado, el panel admin en producción **des
 
 En desarrollo local, siempre escribe directo al filesystem sin necesidad de GitHub.
 
-### Diagrama del flujo OAuth
+### Diagrama de flujo (OAuth y Sincronización)
 
-```
-Usuario                    Frontend (/admin)          Backend (Next.js)            GitHub
-   │                            │                          │                        │
-   │  Click "Conectar GitHub"   │                          │                        │
-   │ ─────────────────────────> │                          │                        │
-   │                            │  GET /api/admin/github/connect                    │
-   │                            │ ──────────────────────> │                        │
-   │                            │                          │ ─── Redirect con ────> │
-   │                            │                          │ state + client_id      │
-   │  ┌─── Autoriza app ────────┼──────────────────────────┼────────────────────────>│
-   │  │                         │                          │                        │
-   │  │<────── Callback con code + state ──────────────────│<────────────────────────│
-   │  │                         │                          │                        │
-   │  │                         │                          │ POST /login/oauth/     │
-   │  │                         │                          │ access_token ─────────> │
-   │  │                         │                          │<── access_token ─────── │
-   │  │                         │                          │                        │
-   │  │                         │                          │ Almacena token en       │
-   │  │                         │                          │ cookie httpOnly (7d)    │
-   │  │                         │<── redirect /admin ──────│                        │
-   │  │<──────────────────────── │   ?github=connected     │                        │
-   │                            │                          │                        │
-   │  Guarda cambios            │                          │                        │
-   │ ─────────────────────────> │                          │                        │
-   │                            │  POST /api/admin/save    │                        │
-   │                            │  + cookie (httpOnly)     │                        │
-   │                            │ ──────────────────────> │                        │
-   │                            │                          │ PUT /repos/.../contents │
-   │                            │                          │ ──────────────────────> │
-   │                            │                          │<── 201 Created ────────│
-   │                            │<── success ─────────────│                        │
-   │<───────────────────────── │                          │                        │
-```
+```mermaid
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'background': '#0d0d11',
+    'actorBkg': '#1a1a24',
+    'actorTextColor': '#f3f4f6',
+    'actorBorder': '#ef4444',
+    'signalColor': '#9ca3af',
+    'signalTextColor': '#f3f4f6',
+    'lineColor': '#4b5563',
+    'labelBoxBkgColor': '#111827',
+    'labelBoxBorderColor': '#374151',
+    'labelTextColor': '#f3f4f6',
+    'noteBkgColor': '#fef08a',
+    'noteTextColor': '#111827'
+  }
+}}%%
+sequenceDiagram
+    autonumber
+    actor Usuario
+    participant Frontend as Frontend (/admin)
+    participant Backend as Backend (Next.js)
+    participant GitHub
 
----
+    %% --- FLUJO DE AUTENTICACIÓN ---
+    Note over Usuario, GitHub: 1. Flujo de Autenticación OAuth
+    Usuario->>Frontend: Click "Conectar GitHub"
+    Frontend->>Backend: GET /api/admin/github/connect
+    Backend->>GitHub: Redirect con state + client_id
+    Usuario->>GitHub: Autoriza aplicación
+    GitHub->>Backend: Callback con code + state
+    Backend->>GitHub: POST /login/oauth/access_token
+    GitHub-->>Backend: Devuelve access_token
+    Note over Backend: Almacena token en<br/>cookie httpOnly (7d)
+    Backend->>Frontend: Redirect a /admin?github=connected
+
+    %% --- FASE DE INICIALIZACIÓN ---
+    Note over Frontend, Backend: 2. Fase de Carga e Inicialización
+    Frontend->>Backend: GET /api/admin/github/status (Verifica cookie)
+    Backend-->>Frontend: Estado: Conectado
+    Frontend->>Backend: GET /api/admin/data (Lee archivos JSON locales)
+    Backend-->>Frontend: Devuelve profile, projects, tech-stack, etc.
+    Frontend-->>Usuario: Renderiza Dashboard con datos actuales en los formularios
+
+    %% --- FLUJO DE GUARDADO ---
+    Note over Usuario, GitHub: 3. Flujo de Sincronización (Commit de Cambios)
+    Usuario->>Frontend: Modifica campos y presiona "Guarda cambios"
+    Frontend->>Backend: POST /api/admin/save + cookie (httpOnly)
+    Backend->>GitHub: PUT /repos/.../contents (API de Contenidos)
+    GitHub-->>Backend: 201 Created (Commit generado en el repositorio)
+    Backend-->>Frontend: Respuesta exitosa (success: true)
+    Frontend-->>Usuario: Muestra notificación de éxito (Sitio actualizado)
+```
 
 ## 📁 Estructura del proyecto
 
 ```
+
 portafolio-crimson/
 ├── src/
-│   ├── app/
-│   │   ├── layout.tsx          ← Layout raíz con metadata y tema
-│   │   ├── page.tsx            ← Página principal
-│   │   ├── globals.css         ← Sistema de diseño Crimson & Ember
-│   │   ├── admin/
-│   │   │   ├── page.tsx        ← Dashboard admin (4 editores)
-│   │   │   └── login/page.tsx  ← Login del admin
-│   │   └── api/admin/
-│   │       ├── data/route.ts   ← GET: leer datos JSON
-│   │       ├── save/route.ts   ← POST: guardar cambios (local) o commit (GitHub)
-│   │       └── github/
-│   │           ├── connect/route.ts   ← Inicia OAuth flow
-│   │           ├── callback/route.ts  ← Recibe el callback de GitHub
-│   │           └── status/route.ts    ← Verifica conexión actual
-│   ├── components/             ← Componentes React
-│   │   ├── header.tsx
-│   │   ├── hero-section.tsx
-│   │   ├── experience-section.tsx
-│   │   ├── projects-section.tsx
-│   │   ├── tech-stack-section.tsx
-│   │   ├── about-section.tsx
-│   │   ├── contact-section.tsx
-│   │   ├── footer.tsx
-│   │   ├── theme-provider.tsx
-│   │   └── language-provider.tsx
-│   ├── data/                   ← 📁 **CMS: edita estos archivos**
-│   │   ├── profile.json
-│   │   ├── projects.json
-│   │   ├── experience.json
-│   │   └── tech-stack.json
-│   ├── lib/
-│   │   ├── utils.ts            ← Utilidad cn() (clsx + tailwind-merge)
-│   │   ├── i18n.ts             ← Sistema de traducciones ES/EN
-│   │   └── tech-icons.tsx      ← Iconos SVG inline (sin dependencias externas)
-│   └── types/index.ts          ← Tipos TypeScript
-├── .env.example                ← Template de variables de entorno
+│ ├── app/
+│ │ ├── layout.tsx ← Layout raíz con metadata y tema
+│ │ ├── page.tsx ← Página principal
+│ │ ├── globals.css ← Sistema de diseño Crimson & Ember
+│ │ ├── admin/
+│ │ │ ├── page.tsx ← Dashboard admin (4 editores)
+│ │ │ └── login/page.tsx ← Login del admin
+│ │ └── api/admin/
+│ │ ├── data/route.ts ← GET: leer datos JSON
+│ │ ├── save/route.ts ← POST: guardar cambios (local) o commit (GitHub)
+│ │ └── github/
+│ │ ├── connect/route.ts ← Inicia OAuth flow
+│ │ ├── callback/route.ts ← Recibe el callback de GitHub
+│ │ └── status/route.ts ← Verifica conexión actual
+│ ├── components/ ← Componentes React
+│ │ ├── header.tsx
+│ │ ├── hero-section.tsx
+│ │ ├── experience-section.tsx
+│ │ ├── projects-section.tsx
+│ │ ├── tech-stack-section.tsx
+│ │ ├── about-section.tsx
+│ │ ├── contact-section.tsx
+│ │ ├── footer.tsx
+│ │ ├── theme-provider.tsx
+│ │ └── language-provider.tsx
+│ ├── data/ ← 📁 **CMS: edita estos archivos**
+│ │ ├── profile.json
+│ │ ├── projects.json
+│ │ ├── experience.json
+│ │ └── tech-stack.json
+│ ├── lib/
+│ │ ├── utils.ts ← Utilidad cn() (clsx + tailwind-merge)
+│ │ ├── i18n.ts ← Sistema de traducciones ES/EN
+│ │ └── tech-icons.tsx ← Iconos SVG inline (sin dependencias externas)
+│ └── types/index.ts ← Tipos TypeScript
+├── .env.example ← Template de variables de entorno
 ├── public/
-│   ├── IDemonSan-Logo.svg      ← Logo del header (reemplázalo por tu logo)
-│   ├── IDemon-San-Icon.svg     ← Favicon del sitio (reemplázalo)
-│   └── cv-brandon-huerta.txt   ← CV descargable (reemplázalo)
+│ ├── IDemonSan-Logo.svg ← Logo del header (reemplázalo por tu logo)
+│ ├── IDemon-San-Icon.svg ← Favicon del sitio (reemplázalo)
+│ └── cv-brandon-huerta.txt ← CV descargable (reemplázalo)
 └── package.json
+
 ```
 
 ---
 
 ## 🛠️ Comandos disponibles
 
-| Comando | Descripción |
-|---|---|
-| `npm run dev` | Servidor de desarrollo |
-| `npm run build` | Build de producción |
+| Comando         | Descripción                |
+| --------------- | -------------------------- |
+| `npm run dev`   | Servidor de desarrollo     |
+| `npm run build` | Build de producción        |
 | `npm run start` | Servir build de producción |
-| `npm run lint` | Verificar linting |
+| `npm run lint`  | Verificar linting          |
 
 ---
 
@@ -320,45 +345,46 @@ portafolio-crimson/
 
 ### Paleta de colores
 
-Las variables CSS están definidas en `src/app/globals.css`.  
+Las variables CSS están definidas en `src/app/globals.css`.
 Los modos oscuro y claro tienen sus propios valores:
 
-| Variable | Oscuro | Claro |
-|---|---|---|
+| Variable       | Oscuro    | Claro     |
+| -------------- | --------- | --------- |
 | `--bg-primary` | `#0A0A0F` | `#F5F3EF` |
-| `--crimson` | `#DC2626` | `#B91C1C` |
-| `--ember` | `#F59E0B` | `#D97706` |
+| `--crimson`    | `#DC2626` | `#B91C1C` |
+| `--ember`      | `#F59E0B` | `#D97706` |
 
 Para cambiar los colores, edita las variables CSS en `:root` (claro) y `.dark` (oscuro).
 
 ### Tipografía
 
 Se usa **Geist** (de Vercel) como fuente principal. Para cambiarla:
+
 1. Actualiza la importación en `src/app/layout.tsx`
 2. Actualiza `--font-sans` en `globals.css`
 
 ### Iconos
 
-Los iconos de tecnologías están en `src/lib/tech-icons.tsx` como SVGs inline.  
+Los iconos de tecnologías están en `src/lib/tech-icons.tsx` como SVGs inline.
 Para agregar una tecnología, busca su SVG de [Simple Icons](https://simpleicons.org/) y agrégalo al mapa `techIcons`.
 
 ---
 
 ## 🔒 Análisis de seguridad
 
-| Componente | Medida de seguridad |
-|---|---|
-| **Admin login** | Autenticación por Bearer token contra `ADMIN_SECRET` (env var). Rate limiting: 5 intentos/15 min, bloqueo 30 min. |
-| **GitHub OAuth** | Usa `state` parameter para CSRF protection. Token almacenado en cookie httpOnly. |
-| **Cookies** | `github_token` es httpOnly (no accesible desde JavaScript). `secure` flag en producción. |
-| **Validación de archivos** | Solo permite escribir en los 4 archivos JSON conocidos (`profile.json`, `projects.json`, `experience.json`, `tech-stack.json`). Previene directory traversal. |
-| **Scope mínimo** | El OAuth solo solicita `repo` — el mínimo necesario para hacer commits. |
-| **Sin exposición de secretos** | `ADMIN_SECRET`, `GITHUB_CLIENT_SECRET` y `GITHUB_TOKEN` son variables de entorno del servidor. Nunca se envían al cliente. |
-| **CORS** | Las rutas API solo responden al mismo origen (Next.js server). |
-| **Timing attacks** | Comparación en tiempo constante con `crypto.timingSafeEqual` para evitar ataques de temporización. |
-| **Rate limiting** | Login: 5 intentos/ventana de 15 min (bloqueo 30 min). Save: 20 guardados/ventana de 15 min. Header `Retry-After` y `X-RateLimit-*`. |
-| **XSS** | Las entradas del admin se renderizan como texto (React escapea automáticamente). |
-| **HTTPS** | Vercel forza HTTPS automáticamente en producción. |
+| Componente                     | Medida de seguridad                                                                                                                                           |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Admin login**                | Autenticación por Bearer token contra `ADMIN_SECRET` (env var). Rate limiting: 5 intentos/15 min, bloqueo 30 min.                                             |
+| **GitHub OAuth**               | Usa `state` parameter para CSRF protection. Token almacenado en cookie httpOnly.                                                                              |
+| **Cookies**                    | `github_token` es httpOnly (no accesible desde JavaScript). `secure` flag en producción.                                                                      |
+| **Validación de archivos**     | Solo permite escribir en los 4 archivos JSON conocidos (`profile.json`, `projects.json`, `experience.json`, `tech-stack.json`). Previene directory traversal. |
+| **Scope mínimo**               | El OAuth solo solicita `repo` — el mínimo necesario para hacer commits.                                                                                       |
+| **Sin exposición de secretos** | `ADMIN_SECRET`, `GITHUB_CLIENT_SECRET` y `GITHUB_TOKEN` son variables de entorno del servidor. Nunca se envían al cliente.                                    |
+| **CORS**                       | Las rutas API solo responden al mismo origen (Next.js server).                                                                                                |
+| **Timing attacks**             | Comparación en tiempo constante con `crypto.timingSafeEqual` para evitar ataques de temporización.                                                            |
+| **Rate limiting**              | Login: 5 intentos/ventana de 15 min (bloqueo 30 min). Save: 20 guardados/ventana de 15 min. Header `Retry-After` y `X-RateLimit-*`.                           |
+| **XSS**                        | Las entradas del admin se renderizan como texto (React escapea automáticamente).                                                                              |
+| **HTTPS**                      | Vercel forza HTTPS automáticamente en producción.                                                                                                             |
 
 ### Limitaciones conocidas
 
